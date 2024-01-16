@@ -5,9 +5,11 @@ const TaskItem = ({ task, status, index }) => {
   console.log(task);
   return (
     <Draggable draggableId={task.id.toString()} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
-          className={`task-item ${status}`}
+          className={`task-item ${status} ${
+            snapshot.isDragging ? "text-lg" : "text-md"
+          }`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}

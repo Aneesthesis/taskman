@@ -1,20 +1,29 @@
 import { useState } from "react";
 import TaskForm from "./Components/TaskForm";
-import { TaskList } from "./Components/TaskList";
+import TaskList from "./Components/TaskList";
 import { DragDropContext } from "react-beautiful-dnd";
+import { getListType } from "./helper";
 
 const App = () => {
-  const [addedList, setAddedList] = useState([]);
-  const [startedList, setStartedList] = useState([]);
-  const [completedList, setCompletedList] = useState([]);
+  const [addedList, setAddedList] = useState(
+    JSON.parse(localStorage.getItem("addedList")) || []
+  );
+  const [startedList, setStartedList] = useState(
+    JSON.parse(localStorage.getItem("startedList")) || []
+  );
+  const [completedList, setCompletedList] = useState(
+    JSON.parse(localStorage.getItem("completedList")) || []
+  );
 
   const addTaskToList = (task) => {
-    setAddedList((prevList) => [...prevList, { task, id: Date.now() }]);
+    setAddedList((prevList) => {
+      const updatedList = [...prevList, { task, id: Date.now() }];
+      localStorage.setItem("addedList", JSON.stringify(updatedList));
+      return updatedList;
+    });
   };
 
-  const handleManouvre = (result) => {
-    console.log(result);
-
+  const handleManeuver = (result) => {
     const { source, destination } = result;
 
     if (!destination) return;
@@ -26,38 +35,22 @@ const App = () => {
       return;
 
     // identify source and destination arrays
-
-    let sourceArray =
-      source.droppableId === "added"
-        ? "addedList"
-        : source.droppableId === "started"
-        ? "startedList"
-        : source.droppableId === "completed"
-        ? "completedList"
-        : undefined;
-
-    let destinationArray =
-      destination.droppableId === "added"
-        ? "addedList"
-        : destination.droppableId === "started"
-        ? "startedList"
-        : destination.droppableId === "completed"
-        ? "completedList"
-        : undefined;
+    let sourceArray = getListType(source.droppableId);
+    let destinationArray = getListType(destination.droppableId);
 
     // remove task from source index and add to destination index
-    console.log(sourceArray, destinationArray);
 
     let sourceIndex = source.index;
     let destinationIndex = destination.index;
     let task = eval(sourceArray)[sourceIndex];
 
-    console.log(sourceArray, sourceIndex);
+    // handle source list
 
     if (sourceArray === "addedList") {
       setAddedList((prevList) => {
         const updatedList = [...prevList];
         updatedList.splice(sourceIndex, 1);
+        localStorage.setItem("addedList", JSON.stringify(updatedList));
         return updatedList;
       });
     }
@@ -66,6 +59,7 @@ const App = () => {
       setStartedList((prevList) => {
         const updatedList = [...prevList];
         updatedList.splice(sourceIndex, 1);
+        localStorage.setItem("startedList", JSON.stringify(updatedList));
         return updatedList;
       });
     }
@@ -74,14 +68,18 @@ const App = () => {
       setCompletedList((prevList) => {
         const updatedList = [...prevList];
         updatedList.splice(sourceIndex, 1);
+        localStorage.setItem("completedList", JSON.stringify(updatedList));
         return updatedList;
       });
     }
+
+    // handle destination list
 
     if (destinationArray === "addedList") {
       setAddedList((prevList) => {
         const updatedList = [...prevList];
         updatedList.splice(destinationIndex, 0, task);
+        localStorage.setItem("addedList", JSON.stringify(updatedList));
         console.log(task);
 
         return updatedList;
@@ -92,7 +90,7 @@ const App = () => {
       setStartedList((prevList) => {
         const updatedList = [...prevList];
         updatedList.splice(destinationIndex, 0, task);
-        console.log(task);
+        localStorage.setItem("startedList", JSON.stringify(updatedList));
         return updatedList;
       });
     }
@@ -101,15 +99,16 @@ const App = () => {
       setCompletedList((prevList) => {
         const updatedList = [...prevList];
         updatedList.splice(destinationIndex, 0, task);
-        console.log(task);
+        localStorage.setItem("completedList", JSON.stringify(updatedList));
         return updatedList;
       });
     }
   };
 
   return (
-    <DragDropContext onDragEnd={handleManouvre}>
+    <DragDropContext onDragEnd={handleManeuver}>
       <div className="App">
+        <header className="header">TASKMAN</header>
         <TaskForm addTaskToList={addTaskToList} />
         <TaskList
           addedList={addedList}

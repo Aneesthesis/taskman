@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import TaskItem from "./TaskItem";
 import { Droppable } from "react-beautiful-dnd";
 
-export const TaskList = ({ addedList, startedList, completedList }) => {
+const TaskList = React.memo(({ addedList, startedList, completedList }) => {
+  const memoizedAddedList = useMemo(
+    () =>
+      addedList.map((task, index) => (
+        <TaskItem index={index} key={index} task={task} status="added" />
+      )),
+    [addedList]
+  );
+
+  const memoizedStartedList = useMemo(
+    () =>
+      startedList.map((task, index) => (
+        <TaskItem index={index} key={index} task={task} status="started" />
+      )),
+    [startedList]
+  );
+
+  const memoizedCompletedList = useMemo(
+    () =>
+      completedList.map((task, index) => (
+        <TaskItem index={index} key={index} task={task} status="completed" />
+      )),
+    [completedList]
+  );
+
   return (
     <div>
-      <main className="flex justify-around my-8">
+      <main className="flex  flex-col md:flex-row justify-center md:justify-around my-8">
         <Droppable droppableId="added">
           {(provided, snapshot) => (
             <div
@@ -16,15 +40,13 @@ export const TaskList = ({ addedList, startedList, completedList }) => {
               {...provided.droppableProps}
             >
               <h2>Added Tasks</h2>
-              {addedList.map((task, index) => (
-                <TaskItem
-                  index={index}
-                  key={index}
-                  task={task}
-                  status="added"
-                  // onButtonClick={() => startTask(index)}
-                />
-              ))}
+              {addedList.length > 0 ? (
+                memoizedAddedList
+              ) : (
+                <div className="text-xl text-gray-300 text-center">
+                  No Task in this Category
+                </div>
+              )}
               {provided.placeholder}
             </div>
           )}
@@ -39,15 +61,13 @@ export const TaskList = ({ addedList, startedList, completedList }) => {
               {...provided.droppableProps}
             >
               <h2>Started Tasks</h2>
-              {startedList.map((task, index) => (
-                <TaskItem
-                  index={index}
-                  key={index}
-                  task={task}
-                  status="started"
-                  // onButtonClick={() => completeTask(index)}
-                />
-              ))}
+              {startedList.length > 0 ? (
+                memoizedStartedList
+              ) : (
+                <div className="text-xl text-gray-300 text-center">
+                  No Task in this Category
+                </div>
+              )}
               {provided.placeholder}
             </div>
           )}
@@ -63,14 +83,13 @@ export const TaskList = ({ addedList, startedList, completedList }) => {
               {...provided.droppableProps}
             >
               <h2>Completed Tasks</h2>
-              {completedList.map((task, index) => (
-                <TaskItem
-                  index={index}
-                  key={index}
-                  task={task}
-                  status="completed"
-                />
-              ))}
+              {completedList.length > 0 ? (
+                memoizedCompletedList
+              ) : (
+                <div className="text-xl text-gray-300 text-center">
+                  No Task in this Category
+                </div>
+              )}
               {provided.placeholder}
             </div>
           )}
@@ -78,20 +97,6 @@ export const TaskList = ({ addedList, startedList, completedList }) => {
       </main>
     </div>
   );
-};
+});
 
-//   const startTask = (taskIndex) => {
-//     const taskToStart = addedList[taskIndex];
-//     setStartedList((prevList) => [...prevList, taskToStart]);
-//     setAddedList((prevList) =>
-//       prevList.filter((_, index) => index !== taskIndex)
-//     );
-//   };
-
-//   const completeTask = (taskIndex) => {
-//     const taskToComplete = startedList[taskIndex];
-//     setCompletedList((prevList) => [...prevList, taskToComplete]);
-//     setStartedList((prevList) =>
-//       prevList.filter((_, index) => index !== taskIndex)
-//     );
-//   };
+export default TaskList;

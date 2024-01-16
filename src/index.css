@@ -7,12 +7,35 @@
   padding: 20px;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
+
 h1,
 h2,
 h3 {
+  text-align: center;
   color: #333;
-  font-family: "Arial", sans-serif;
+  font-family: "Patrick Hand", cursive;
   font-weight: bold;
+  font-size: large;
+}
+
+.header {
+  background-color: #f0f0f0;
+  font-family: "Patrick Hand", cursive;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  font-size: xx-large;
+  border-radius: 8px;
+}
+
+.task-list {
+  transition: box-shadow 0.3s ease-in-out;
+  min-width: 260px;
+  min-height: 100px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 15px;
 }
 
 .task-list.added {
@@ -20,7 +43,6 @@ h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 8px;
-  margin-bottom: 20px;
 }
 
 .task-list.started {
@@ -28,7 +50,6 @@ h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 8px;
-  margin-bottom: 20px;
 }
 
 .task-list.completed {
@@ -36,19 +57,24 @@ h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 8px;
-  margin-bottom: 20px;
 }
 
 .task-list.drag-added {
   background-color: #f4bebe;
+  box-shadow: 0 0 10px rgba(244, 190, 190, 0.7),
+    0 0 20px rgba(244, 190, 190, 0.5);
 }
 
 .task-list.drag-started {
   background-color: #b1e6ff;
+  box-shadow: 0 0 10px rgba(177, 230, 255, 0.7),
+    0 0 20px rgba(177, 230, 255, 0.5);
 }
 
 .task-list.drag-completed {
   background-color: #98f698;
+  box-shadow: 0 0 10px rgba(152, 246, 152, 0.7),
+    0 0 20px rgba(152, 246, 152, 0.5);
 }
 
 .task-item {
@@ -57,7 +83,6 @@ h3 {
   border: 1px solid #ccc;
   background-color: #f9f9f9;
   border-radius: 4px;
-  font-size: 16px;
   color: #333;
 }
 

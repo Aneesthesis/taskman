@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Add from "../UI/Add";
 
 const TaskForm = ({ addTaskToList }) => {
-  const [taskFormInput, setTaskFormInput] = useState(" ");
+  const [taskFormInput, setTaskFormInput] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -15,15 +15,17 @@ const TaskForm = ({ addTaskToList }) => {
     <div>
       <form
         onSubmit={submitHandler}
-        className="form flex justify-between w-1/2 mx-auto border border-blue-300 focus:shadow-md"
+        className="form flex items-center sm:justify-between w-full sm:w-1/2 mx-auto mt-4"
       >
         <input
-          className="flex-grow text-lg text-center outline-none"
+          className="flex-grow text-center outline-none p-2 rounded-md border border-blue-300 focus:shadow-md mb-2 sm:mb-0"
           onChange={(e) => setTaskFormInput(e.target.value)}
           value={taskFormInput}
           type="text"
+          placeholder="Add new task..."
         />
-        <button>
+
+        <button type="submit" className="w-full sm:w-auto">
           <Add />
         </button>
       </form>
