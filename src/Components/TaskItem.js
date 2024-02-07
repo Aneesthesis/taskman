@@ -1,5 +1,6 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
+import Hamburger from "../UI/Hamburger";
 
 const TaskItem = ({ task, status, index }) => {
   console.log(task);
@@ -7,14 +8,17 @@ const TaskItem = ({ task, status, index }) => {
     <Draggable draggableId={task.id.toString()} index={index}>
       {(provided, snapshot) => (
         <div
-          className={`task-item ${status} ${
+          className={`task-item flex space-x-2 ${status} ${
             snapshot.isDragging ? "text-lg" : "text-md"
           }`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          {task.task}
+          <p>{task.task}</p>
+          <button className=" mr-4">
+            <Hamburger />
+          </button>
         </div>
       )}
     </Draggable>

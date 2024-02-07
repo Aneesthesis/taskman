@@ -86,6 +86,15 @@ h3 {
   color: #333;
 }
 
+.task-search {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  color: #333;
+}
+
 .task-item.started {
   background-color: #ffd700;
   font-weight: bold;
