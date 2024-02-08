@@ -57,10 +57,12 @@ const TaskList = React.memo(({ addedList, startedList, completedList }) => {
               {...provided.droppableProps}
             >
               <h2>Added Tasks</h2>
-              <SearchItem
-                searchTerm={addedSearchTerm}
-                onSearchChange={handleAddedSearchChange}
-              />
+              {addedList.length > 0 && (
+                <SearchItem
+                  searchTerm={addedSearchTerm}
+                  onSearchChange={handleAddedSearchChange}
+                />
+              )}
               {filteredAddedList.length > 0 ? (
                 filteredAddedList.map((task, index) => (
                   <TaskItem
@@ -72,7 +74,7 @@ const TaskList = React.memo(({ addedList, startedList, completedList }) => {
                 ))
               ) : (
                 <div className="text-xl text-gray-300 text-center">
-                  No matching tasks in this category
+                  No Task in this Category
                 </div>
               )}
               {provided.placeholder}
@@ -90,10 +92,12 @@ const TaskList = React.memo(({ addedList, startedList, completedList }) => {
               {...provided.droppableProps}
             >
               <h2>Started Tasks</h2>
-              <SearchItem
-                searchTerm={startedSearchTerm}
-                onSearchChange={handleStartedSearchChange}
-              />
+              {startedList.length > 0 && (
+                <SearchItem
+                  searchTerm={startedSearchTerm}
+                  onSearchChange={handleStartedSearchChange}
+                />
+              )}
               {filteredStartedList.length > 0 ? (
                 filteredStartedList.map((task, index) => (
                   <TaskItem
@@ -105,7 +109,7 @@ const TaskList = React.memo(({ addedList, startedList, completedList }) => {
                 ))
               ) : (
                 <div className="text-xl text-gray-300 text-center">
-                  No matching tasks in this category
+                  No Task in this Category
                 </div>
               )}
               {provided.placeholder}
@@ -123,10 +127,12 @@ const TaskList = React.memo(({ addedList, startedList, completedList }) => {
               {...provided.droppableProps}
             >
               <h2>Completed Tasks</h2>
-              <SearchItem
-                searchTerm={completedSearchTerm}
-                onSearchChange={handleCompletedSearchChange}
-              />
+              {completedList.length > 0 && (
+                <SearchItem
+                  searchTerm={completedSearchTerm}
+                  onSearchChange={handleCompletedSearchChange}
+                />
+              )}
               {filteredCompletedList.length > 0 ? (
                 filteredCompletedList.map((task, index) => (
                   <TaskItem
@@ -137,8 +143,8 @@ const TaskList = React.memo(({ addedList, startedList, completedList }) => {
                   />
                 ))
               ) : (
-                <div className="text-xl text-gray-300 text-center">
-                  No matching tasks in this category
+                <div className="text-xl align-middle text-gray-300 text-center">
+                  No Task in this Category
                 </div>
               )}
               {provided.placeholder}
